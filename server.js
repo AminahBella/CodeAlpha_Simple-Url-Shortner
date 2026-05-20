@@ -13,6 +13,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static('public'));
+
 // routes
 app.use('/', urlRoutes);
 
@@ -20,11 +22,6 @@ app.use('/', urlRoutes);
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
-
-// test route
-app.get('/', (req, res) => {
-    res.send("URL Shortener API Running");
-});
 
 const PORT = process.env.PORT || 5000;
 
