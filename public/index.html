@@ -2,38 +2,121 @@
 <html>
 <head>
     <title>URL Shortener</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            width: 380px;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            outline: none;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #6c63ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #574fd6;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #f4f4f4;
+            word-break: break-all;
+        }
+
+        #result a {
+            color: #6c63ff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        #result a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
+
+<div class="card">
 
     <h1>Simple URL Shortener</h1>
 
     <input type="text" id="urlInput" placeholder="Enter long URL">
-    <button onclick="shortenUrl()">Shorten</button>
+    <button onclick="shortenUrl()">Shorten URL</button>
 
-    <p id="result"></p>
+    <div id="result"></div>
 
-    <script>
-        async function shortenUrl() {
+</div>
 
-            const originalUrl =
-                document.getElementById('urlInput').value;
+<script>
+    async function shortenUrl() {
 
-            const response = await fetch('/shorten', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ originalUrl })
-            });
+        const originalUrl =
+            document.getElementById('urlInput').value;
 
-            const data = await response.json();
+        const response = await fetch('/shorten', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ originalUrl })
+        });
 
-            document.getElementById('result').innerHTML =
-                `<a href="${data.shortUrl}" target="_blank">
-                    ${data.shortUrl}
-                </a>`;
-        }
-    </script>
+        const data = await response.json();
+
+        document.getElementById('result').innerHTML =
+            `
+            <p>Shortened URL:</p>
+            <a href="${data.shortUrl}" target="_blank">
+                ${data.shortUrl}
+            </a>
+            `;
+    }
+</script>
 
 </body>
 </html>
